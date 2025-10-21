@@ -20,8 +20,8 @@
 
 
 class Solution:
-    def copy_graph(self, node: 'ListNode') -> 'ListNode':
-        def _dfs_clone(node: 'ListNode'):
+    def copy_graph(self, node: Optional['ListNode']) -> Optional['ListNode']:
+        def _dfs_clone(node: Optional['ListNode']):
             if not node:
                 return None
             if node in mapp:
@@ -33,7 +33,7 @@ class Solution:
                 copy.neighbors.append(_dfs_clone(neighbor))
             
             return copy
-        ~
+        
         mapp = {}
         copy = _dfs_clone(node)
 
