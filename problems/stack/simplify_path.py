@@ -81,3 +81,20 @@ class Solution:
                 stack.append(item)
         
         return "/" + "/".join(stack)
+    
+
+
+# META Variant
+# We're given:
+
+# An absolute path representing the current working directory (abbreviated as cwd).
+
+# This is already simplified: there are no special characters (e.g., "." or "..") in cwd.
+
+# A relative path representing a change directory command (abbreviated as cd).
+
+# This may contain special characters ("." means stay, ".." means go up one level), and may not be simplified (could contain redundant slashes).
+
+# Return:
+# The string representation of the absolute path you end up at after running cd from the given cwd.
+# Your result should be in simplified form.
