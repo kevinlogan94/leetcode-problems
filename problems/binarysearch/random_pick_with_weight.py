@@ -116,4 +116,5 @@ class Solution:
             else:
                 right = mid
 
-        return self.cp.get(left[0], None)     
+        result = self.cp.get(left, None)    
+        return result[0] if result else None   
