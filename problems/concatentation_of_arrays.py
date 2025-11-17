@@ -22,7 +22,7 @@
 # [1,2,3,1,2,3]
 
 # time - O(n)
-# space - O(n)
+# space - O(2n) -> O(n)
 
 class solution:
     def concat_arrays(self, nums: List[int]) -> List[int]:
