@@ -6,74 +6,70 @@
 
 # -------------------------
 
-# parameters - s: str, t: str
-# return - min substring: str
+# parameters - s:str, t:str
+# return- min_substring_of_s: str
 
-# Q - S and t can be empty
-# Q - s and t can both have duplicate characters
-# Q - 
+# HANDLE EDGE CASE
 
 # sliding window
-# hashmap - counts out the chars in t
-# 
 
-# 
-# 1 loop through s
-# 
-# 2  if matchcount != len(hashmapt)
-# 3   move right pointer until we have a substring with all values. Making our substring valid. if matchcount != len(hashmapt)
-# 4     on each new loop, check new char if it is in hashmapt, increment value in hashmaps. 
-# 5       If value in hashmapt == hashmaps. increment matchcount.
-# 6     if matchcount == len(hashmapt):
-# 7        update substring if less than existing substring 
-# 8  else
-# 9   move left pointer, until we have a substring that is invalid. match != len(hashmapt) or left >= right
-# 10       update min substring
-#       
-# 
-# 
+# s - asdft
+# t - at
 
-# return our result
+# s - astdfat
+# t - att
 
-# Time - O(n) -> n = len(s)
-# Space - O(n) -> n = len(t)
+# { a: 1, t: 2 }
+# { a: 1, t: 2 }
 
-class Solution:
-    def min_window(self, s:str, t:str) -> str:
-        mapt = {}
-        maps = {}
-        substr = ""
+# 1 define class
+# 2 define method
+# 3  cnt through t - t_map
+# 4. declare variables - left, right, s_map, substring
+# 5  loop through s
+# 6.   move right until we have met requirements of t
+# 7.     while requirements are met
+# 8         move left pointer to the right and update substring
+# 9. return "".join(substring)
 
+# time - O(n) - n=length of s
+# space - O(n) - n length of s
+
+class solution:
+    def substrings_of_s(self, s: str, t: str) -> str:
+        if not s or not t:
+            return ""
+        sub_str = ""
         left = right = 0
         end = len(s) - 1
+        s_map = {}
+        t_map = {}
 
-        if not s or not t:
-            return substr
-        
         for char in t:
-            mapt[char] = mapt.get(char, 0) + 1
-
-        have = 0
-        need = len(mapt)
+            t_map[char] = t_map.get(char, 0) + 1
         
+        need = len(t_map)
+        have = 0
+
         while right <= end:
+
             char = s[right]
-            maps[char] = maps.get(char, 0) + 1
+            if char in t_map:
+                s_map[char] = s_map.get(char, 0) + 1
+                if s_map[char] == t_map[char]:
+                    have += 1
+            
+            while have == need and left <= right:
+                if (right - left) < len(sub_str) or not sub_str:
+                    sub_str = s[left:right + 1]
 
-            if char in mapt and maps[char] == mapt[char]:
-                have += 1
-
-            while have == need:
-                if right - left + 1 < len(substr) or not substr:
-                    new_substr = s[left:right + 1]
-                    substr = new_substr
-                
                 char = s[left]
-                maps[char] -= 1
-
-                if char in mapt and maps[char] < mapt[char]:
-                    have -= 1
+                if char in t_map:
+                    s_map[char] -= 1
+                    if s_map[char] < t_map[char]:                    
+                        have -= 1
                 left += 1
+
             right += 1
 
-        return substr
+        return sub_str
