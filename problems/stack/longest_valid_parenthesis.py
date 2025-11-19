@@ -3,57 +3,60 @@
 
 # --------------------
 
-# parameters - chars: str
-# return - max_length: int
+# parameters - string: str
+# return - length_of_longest_substring: int
 
-# Q - is the string strictly "(())"
-# Q - can the string be empty? Yes
-
-
-# stack - 
-
-# (((())
-# ()
-# stack = [-1]
-# 1 + 1 = 2
-
-# ())))()()
-# stack = [4]
-# 8 - 4 = 4
-
-# stack - holds the latest boundary or left pointer
+# Q - ( and )
+# Q - can we have nothing be passed? yes
 
 
-# Time - O(n)
-# Space - O(n) n = len(chars)
+# stack - [index]
+# index - index in stack
+# (())))
 
-# 1. def class
-# 2. def method
-# 3. def variables- stack[-1], max_length
-# 4. loop through chars with enumerate
-# 5.     if ( then append to stack
-# 6.     if ), 
-# 7             pop from stack
-# 8.            if not stack -> append to stack
-# 9             else: calculate our length and compare against max length
+# )((((())
+# )))(((())))
 
-# "()"
-# [-1]
+# declare variables - > max = 0, stack = []
+# loop through our array string
+#    on ( -> append to our stack the index
+#    on ) -> if stack -> run a max on the current index vs. last index in our stack. 
+# return max
+
+# Time - O(n) - n is the length of our string
+# Space - O(n) - n is the length of our string
+
+
+
+# "((()))(("
+# "()()"
+
+# "()()"
+# "())()"
+
+# [2] 4
+# max - 2
+# 
 class Solution:
-    def valid_parenthesis(self, chars: str) -> int:
+    def longest_valid_parenthesis_substring_length(self, string: Optional[str]) -> int:
         stack = [-1]
         max_length = 0
 
-        for index, char in enumerate(chars):
+        if not string:
+            return max_length
+
+        for index, char in enumerate(string):
             if char == "(":
                 stack.append(index)
             else:
                 stack.pop()
-
+                
                 if not stack:
+                    # This ')' is unmatched, it becomes the new boundary.
                     stack.append(index)
                 else:
-                    length = index - stack[-1]
-                    max_length = max(max_length, length)
+                    # This ')' is matched. Calculate length from the last unmatched boundary.
+                    curr_length = index - stack[-1]
+                    max_length = max(max_length, curr_length)
 
         return max_length
