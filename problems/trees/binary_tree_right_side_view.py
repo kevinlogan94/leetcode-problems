@@ -84,3 +84,39 @@ def both_side_view(self, root: Optional[TreeNode]) -> List[int]:
     _bfs_traversal(root)
     return self.result                
                 
+
+
+# Variant - Print Both Views
+
+# Same as above except we want to print the values instead of returning them in a list
+# print out all the values on the left from top to bottom and then all the values on the right from top to bottom
+
+class Solution:
+    def tree_print_both_sides(root: Optional[TreeNode]) -> None:
+        if not root:
+            return 
+        
+        queue = [root]
+        left_side_view = []
+        right_side_view = []
+
+        while queue:
+            queue_len = len(queue)
+
+            for index in range(queue_len):
+                node = queue.pop(0)
+                if index == 0:
+                    left_side_view.append(node)
+                if index == queue_len - 1:
+                    right_side_view.append(node)
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        
+        for node in left_side_view:
+            print(node)
+        for node in right_side_view:
+            print(node)
+    

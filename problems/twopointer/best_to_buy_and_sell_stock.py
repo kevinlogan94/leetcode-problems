@@ -48,7 +48,7 @@ class Solution:
 
 # Variant - Cheapest Roundtrip Flight
 
-# You are given two arrays `departure` and `arrival` where `departure[i]` and `returns[i]` represent the departure and return prices of a flight on the ith day.
+# You are given two arrays `departure` and `arrival` where `departure[i]` and `arrival[i]` represent the departure and return prices of a flight on the ith day.
 
 # You want to minimize your cost by choosing a single day to depart and a different day in the future to return.
 
@@ -56,34 +56,35 @@ class Solution:
 
 # ----------------------
 
-# parameters - departure: List[int], arrival: List[int]
-# return - min_cost_for_roundtrip: int
+# parameters: departure: List[float], arrival: List[float]
+# return - min_cost: float
 
-# Q - no negative numbers
+#          -
+# [3,2,1,4,5]
+#  -        
+# [2,3,4,5,6]
 
-# [1,2,3,4]
-# [1,2,3,4]
+#          -
+# [2,4,3,2,1]
+#  _
+# [1,9,3,5,6]
 
-#  *  
-# [3,4,2,1]
-#.   *  
-# [4,1,2,3]
+# Time - O(n)
+# Space - O(1)
 
-# [4,3,2]
-# [3,1,1]
-
+# loop through our arrivals
+#  start at 1, start dep at 2
+#  loop through and keep calculating the min value
 # 
 
 class Solution:
-    def roundtrip_flight(self, departure: List[int], arrival: List[int]) -> int:
-        if not departure or not arrival:
-            return 0
-        
-        min_departure = departure[0]
-        min_price = float("inf")
-        
-        for index in range(1, len(arrival)):
-            min_price = min(min_price, min_departure + arrival[index])
-            min_departure = min(min_departure, departure[index])
-        
-        return int(min_price) if min_price != float("inf") else 0
+    def rountrip_flight(self, departure:List[float], arrival: List[float]) -> float:
+        min_cost = float("inf")
+        min_depart = departure[0]
+
+        for i in range(1, len(arrival)):
+            min_depart = min(min_depart, departure[i-1])
+            new_cost = min_depart + arrival[i]
+            min_cost = min(min_cost, new_cost)
+
+        return min_cost
