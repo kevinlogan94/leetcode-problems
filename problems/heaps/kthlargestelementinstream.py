@@ -4,40 +4,39 @@
 
 # Can you solve it without sorting?
 
+# -----------------------------
 
-# parameter - nums: List[int], k: int
-# return - an int - kth largest element in array - 
+# parameters: nums: List[int], k: int
+# return: return kth_largest_element: int
 
-# [1,2,3,4,5] k = 2
-# return 4
+# k=2 -> return the 2nd largest element
 
-# is nums array sorted? - No
-# Heap
+# heap
 
-# 1. loop through nums
-# 2. push each num to our heap - heap is going to sort the nums
-# arr - [1,7,4,5,8]
-# max heap - [8,7,5,4,1] - O(logk) - k = len(heap)
-# 3. pop our heap k times. run a loop that runs k times.
-# 4. return final result
+# 12345, k = 2
+# [4, 5]
 
-# max heap - [-8,-7,-5,-4,-1]
-# min heap - [1,4,5,7,8]
 
-# Time - O(nlogn) - n = len(nums)
-# Space - O(n) - n = len(nums)
+# loop through nums
+#    store num in min_heap until min_heap = k, 
+#      if min_heap[0] < num -> heap_replace
+# return min_heap[0]
+# 
+# 
 
-# Edge cases - can nums be empty?
+# time - o(n) = n = len(nums)
+# space - O(n) -> n = k
+
 
 class Solution:
-    def kthlargestelement(self, nums: List[int], k: int) -> int:
-        result = 0
+    def kth_largest_element(self, nums: List[int], k: int) -> Optional[int]:
         heap = []
+
         for num in nums:
-            heapq.heappush(heap, -num)
-
-        for _ in range(k):
-            result = heapq.heappop(heap)
-            result = -result
-
-        return result
+            if len(heap) < k:
+                heapq.heappush(heap, num)
+            else:
+                if heap[0] < num:
+                    heapq.heapreplace(heap, num)
+        
+        return heap[0] if heap else None
