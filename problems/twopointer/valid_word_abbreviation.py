@@ -21,52 +21,61 @@
 # --------------------
 
 
-# paramater - word: str, abbr:str
-# Return - bool
+# parameters - word: str, abbr: str
+# return - match: boolean
 
-# Q - 
+# Q - abbr is a str
+# Q - can word be empty
 
-# help
-# h2p
+# Don't forget leading 0.
 
-# help
-# he2
+# declare variables - abbr_cntr, word_cntr = 0 
+#   num = 0
 
-#    dec variables - num, wrdpntr, abbrpntr
-# 1. loop through our abbr and word until we hit end
-# 2.   if char is digit and start with 0 return false
-# 3.      else is digit
-# 4.         build out num until we hit char then increment word
-# 5.   if word char != abbr char
-# 6.     return false
-# 7. return wrdpntr == word.length and abbrpntr == abbr.length 
+# loop through both abbr and word
+#   check if abbr is num, if so loop through abbr until no longer num or we hit the end.
+#     build upon num until end
+#   add num to word_pntr
+#   reset num
 
-# Space - O(1) 
-# Time - O(n)
+#   check if num or abbr are at or beyond the end, if so, continue
+#   increment word_pntr and abbr_pntr
+
+# return the comparison of word and abbr being equal to their pointers
+
+
+# Time - O(n) n = length of abbr or word. Depends on the longer one
+# Space - O(1)
 
 class Solution:
-    def valid_abbr(self, word: str, abbr: str) -> bool:
-        abbrpntr = wrdpntr = num = 0
+    def match_abbr(self, word: str, abbr: str) -> bool:
+        num = abbr_cntr = word_cntr = 0
+        word_len = len(word)
+        abbr_len = len(abbr)
 
-        while abbrpntr < len(abbr) and wrdpntr < len(word):
-            while abbrpntr < abbr[abbrpntr] and abbr[abbrpntr].isdigit():
-                if abbr[abbrpntr] == "0" and num == 0:
+        while abbr_cntr < abbr_len and word_cntr < word_len:
+            
+            while abbr_cntr < abbr_len and abbr[abbr_cntr].isdigit():
+                digit = int(abbr[abbr_cntr])
+                if num == 0 and digit == 0:
                     return False
-                num = num * 10 + int(abbr[abbrpntr])
-                abbrpntr += 1
-            wrdpntr += num
+
+                num = num * 10 + digit
+                abbr_cntr += 1
+            
+            word_cntr += num
             num = 0
-            
-            if abbrpntr >= len(abbr) or wrdpntr >= len(word):
+
+            if word_cntr >= word_len or abbr_cntr >= abbr_len:
                 continue
-
-            if word[wrdpntr] != abbr[abbrpntr]:
+             
+            if word[word_cntr] != abbr[abbr_cntr]:
                 return False
-            
-            wrdpntr += 1
-            abbrpntr += 1
 
-        return abbrpntr == len(abbr) and wrdpntr == len(word)
+            abbr_cntr += 1
+            word_cntr += 1
+        
+        return abbr_cntr == abbr_len and word_cntr == word_len
 
 
 # Variant
@@ -76,35 +85,40 @@ class Solution:
 # asdfg
 # a1d*g
 
-# if end return true
-# keep incrementing g until we hit our value
+# asdf*
+
+# Q - Is this possible asd*1? 
+
 
 class Solution:
-    def valid_abbr_with_wildcard(word: str, abbr: str) -> bool:
-        wrdpntr = abbrpntr = num = 0
+    def match_abbr(self, abbr:str, word:str) -> bool:
+        num = word_cntr = abbr_cntr = 0
+        word_len = len(word)
+        abbr_len = len(abbr)
 
-        while wrdpntr < len(word) and abbrpntr < len(abbr):
-            if abbr[abbrpntr] == "*":
-                if abbrpntr == len(abbr) - 1:
+        while word_cntr < word_len and abbr_cntr < abbr_len:
+
+            if abbr[abbr_cntr] == "*":
+                if abbr_cntr == abbr_len - 1:
                     return True
-                else:
-                    abbrpntr += 1
-                    charToCheck = abbr[abbrpntr]
+                
+                while word_cntr < word_len and word[word_cntr] != abbr[abbr_cntr + 1]:
+                    word_cntr += 1
 
-                    while charToCheck != word[wrdpntr] and wrdpntr < len(word):
-                        wrdpntr += 1
-
-            while abbr[abbrpntr].isdigit() and abbrpntr < len(abbr):
-                num = num * 10 + int(abbr[abbrpntr])
-                abbrpntr += 1
+            while abbr_cntr < abbr_len and abbr[abbr_cntr].isdigit():
+                num = num * 10 + int(abbr[abbr_cntr])
+                abbr_cntr += 1
             
-            wrdpntr += num
+            word_cntr += num
             num = 0
 
-            if wrdpntr >= len(word) or abbrpntr >= len(abbr):
+            if word_cntr >= word_len or abbr_cntr >= abbr_len:
                 continue
 
-            abbrpntr += 1
-            wrdpntr += 1
-
-        return wrdpntr == len(word) and abbrpntr == len(abbr)
+            if word[word_cntr] != abbr[abbr_cntr]:
+                return False
+            
+            abbr_cntr += 1
+            word_cntr += 1
+        
+        return word_cntr == word_len and abbr_cntr == abbr_len
