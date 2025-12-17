@@ -4,36 +4,63 @@
 
 # ---------------------------------------
 
-# parameters - nums: list[int], k:int
-# return - total_subarrays: int
+# parameters: nums: list[int], k: int
+# return: total_amount_of_subarrays: int
 
-# Q - negative numbers allowed
-
-# [1,2,3,4]
-# [1,3,6,10]
-# prefix[3] - prefix[0] -> 10 - 1 -> 9
-# prefix[right] - prefix[left - 1] = k
-# prefix[right] = k - prefix[left - 1]
-# prefix[right] - k = prefix[left - 1]
+# Q - nums can be empty
+# Q - k is not null
+# Q - nums can have negative values
 
 
+# [1,2,3], k = 3
 
+# [1,3,6]
+# target = k - prefix_sum
+
+# [1,2,3]
+# [1, 3, 6]
+# { 0:1, 1:1, 3:1 }
+# 3 - 6 = 3
+# sum = 2
+
+# prefixsum[right] - prefixsum[left - 1] = subarray sum
+# prefixsum[right] - k = prefixsum[left - 1]
+
+
+
+# Time - O(n) - n = len(nums)
+# Space - O(n) - n = len(nums)
+
+# class solution
+#   method
+#    declare variables - prefix_sum, sum, Hashmap
+#    loop through our nums
+#       increment our prefix_sum by num
+#         do k - prefix_sum = target
+#            check if target is in hashmap, if so increment sum by amount
+#         add prefix_sum to hashmap
+#    return sum
+
+
+# [1,2,3], k = 3
+# 3 - 1 = 2
+# sum = 0
+# prefix_sum = 1
+# mapp = { 1:1 }
 class Solution:
-    def subarray_sum(self, nums: List[int], k:int) -> int:
-        if not nums:
-            return 0
-        total = prefix_sum = 0
+    def total_subarrays(self, nums: List[int], k: int) -> int:
+        sub_array_sum = prefix_sum = 0
         mapp = {0:1}
 
         for num in nums:
             prefix_sum += num
 
-            target = prefix_sum - k
-            total += mapp.get(target, 0)
+            target = k - prefix_sum
+            
+            sub_array_sum = mapp.get(target, 0)
+            mapp[target] = mapp.get(prefix_sum) + 1
 
-            mapp[prefix_sum] = mapp.get(prefix_sum, 0) + 1
-        
-        return total
+        return sub_array_sum
     
 
 
@@ -44,23 +71,23 @@ class Solution:
 
 # ---------------------------------------
 
+
 class Solution:
     def subarray_sum(self, nums: List[int], k: int) -> bool:
-        if not nums:
-            return False
         prefix_sum = 0
-        seen = {0}
+        seen = set([0])
 
         for num in nums:
             prefix_sum += num
+
             target = prefix_sum - k
+
             if target in seen:
                 return True
+        
             seen.add(prefix_sum)
 
         return False
-
-
 
 
 # Variant 2 
