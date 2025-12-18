@@ -6,6 +6,94 @@
 
 # ----------------------
 
+
+# parameters - root: TreeNode
+# return - length_of_diameter: int
+
+
+# Q - can root be null - yes
+# Q - binary tree means there is generally a left and right child of each node.
+
+
+# DFS
+
+#   1
+# 2   3 
+
+
+#    1
+#  3   4
+#    2   5
+# 
+
+
+# calculate the height
+
+
+# class
+#   method
+#     sub_method -> diameter:
+#        if not root - return diameter 
+#        
+#        trigger right and left node recursively and return each height
+#        add up right and left height to get diameter
+#          if diameter is greater then existing, up it.
+# 
+#        height to return, l_height or r_height, which is greater + 1
+#        
+
+#     declare diameter
+#     call method
+#     return diameter
+
+
+
+# Time - O(n) = n = size of the tree
+# Space - O(n) = n = size of the tree
+
+
+class Solution:
+    def diameter_of_tree(self, root: Optional[TreeNode]) -> int:
+        
+        def _dfs_check_diameter(node: Optional[TreeNode]) -> int:
+            if not node:
+                return 0
+            
+            l_height = _dfs_check_diameter(node.left) # 1
+            r_height = _dfs_check_diameter(node.right)
+
+            curr_diameter = l_height + r_height
+            self.diameter = max(curr_diameter, self.diameter)
+
+            height = r_height if r_height > l_height else l_height
+
+            return height + 1
+
+
+        self.diameter = 0
+        _dfs_check_diameter(root)
+        return self.diameter
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # paremeter - root: Optional["Node"]
 # return - diameter: int
 
