@@ -43,7 +43,9 @@
 #   call sub_method
 #     
 
-
+# V = vertices, E = edges
+# Time - O(V + E)
+# Space - O (V + E)
 
 class Solution:
     def course_schedule(self, prerequisites: List[Tuple[int, int]]) -> bool:
