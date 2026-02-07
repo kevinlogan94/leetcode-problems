@@ -3,54 +3,65 @@
 
 # -------------------
 
-# parameters - intervals: Optional[List[Tuple(int, int)]]
-# return - new_intervals: Optional[List[Tuple(int, int)]]
 
-# [()]
-
-# Q - interval values are ints
-# Q - These are not sorted
-
-# [(0,1),(1,2),(0,2)]
-# [(0,1),(0,2),(1,2)]
-
-# [(0,3),(0,2)] -> [(0,3)]
-# [(0,3)]
-
-# sort our list by tuple[0]
-# declare variable - merge_intervals = []
-# loop through our tuples starting at list[i + 1]
-#    do comparison - 
-#       if prev last int is > than curr_first_int
-#           create new tuple that is (0, max(right_int))
-#           append merge_intervals
-#       else append i-1 to merge intervals
-
-# Time - O(nlogn) - n = len(intervals)
-# Space - O(n) - n = len(intervals)
+# parameters: intervals: List[Tuple[int,int]]
+# return: non_overlap_intervals: List[Tuple[int,int]]
 
 
-# [(0,1),(2,4)(3,4)]
+# Q - intervals are ints
+# Q - Intervals will be provided
+# Q - intervals aren't ordered - [[2,3],[1,2]]
+
+# [[1,2],[2,3]] -> [[1,3]]
+# [[1,2]] -> [[1,2]]
+# [[1,3],[2,4],[6,7]] -> [[1,4],[6,7]]
+
+# sort -> [0] -> is in order
+# [[2,3],[1,2]] -> [[1,2],[2,3]]
+
+# [[1,4],[6,7]]
+
+
+# class
+# method
+#   declare - new_intervals, 
+#   push first entry in intervals to new_intervals
+#   loop through intervals starting at 2nd interval
+#      compare curr_interval to the last interval in new_intervals
+#        compare new_intervals[last] and curr[first] element 
+#           if new_interval is >= curr then... 
+#             compare last to last -> update new intervals if necessary
+#           else
+#             push curr to new_intervals
+
+#   return new_intervals
+
+
+
+# Time - O(nlogn) - n = len(s)
+# Space - O(n) - n = len(s)
+
+
+
 class Solution:
-    def merge_intervals(self, intervals: Optional[List[Tuple[int, int]]]) -> Optional[List[Tuple[int, int]]]:
+    def merge_intervals(self, intervals: List[Tuple[int,int]]) -> List[Tuple[int, int]]:
         if not intervals:
-            return intervals
+            return []
         
-        sorted_intervals = sorted(intervals, key=lambda i: i[0])
-        merged_intervals = [sorted_intervals[0]]
+        intervals = sorted(intervals, key=lambda i: i[0])
 
-        for interval in sorted_intervals[:1]:
-            last_merge_interval = merged_intervals[-1]
-            if last_merge_interval[1] > interval[0]:
-                right_spot = max(last_merge_interval[1], interval[1])
-                left_spot = last_merge_interval[0]
-                new_interval = (left_spot, right_spot)
+        new_intervals = [intervals[0]]
 
-                merged_intervals[-1] = new_interval
+        for index in range(1, len(intervals)):
+            last = new_intervals[-1]
+            curr = intervals[index]
+
+            if last[1] >= curr[0]:
+                new_intervals[-1][1] = last[1] if last[1] >= curr[1] else curr[1]
             else:
-                merged_intervals.append(interval)
-        
-        return merged_intervals
+                new_intervals.append(curr)
+            
+        return new_intervals
 
 
 # Variant

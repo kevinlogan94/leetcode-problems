@@ -7,43 +7,45 @@
 
 # ----------------------
 
-# parameters - stocks: int
-# return max_profit_value: int
+# parameters - prices: List[int]
+# return - max_profit: int
 
-# Sliding window
+# Q - the prices are ints
+# Q - prices can't be empty
 
+# [1,2,3,4]
 # buy low and sell high
 
-# left, right = 0
+# [6,3,9,1]
+# [1,8,4,9]
 
-# move right till right > left -> calc max
-# then move left until left >= right
+# class
+# method
+#  loop through prices from right to left
+#     check if num is higher the highest num
+#        if so, update highest num otherwise compare new potential max profit
+#  return final max profit
 
 
-# O(n) - n = len(stocks)
+# O(n) - n = len(prices)
 # O(1)
 
-
-# [3,4,1]
-# [1,3,4,5,3,10]
-# [1,2,10,5,4]
 class Solution:
-    def buy_and_sell_stocks(self, stocks: List[int]) -> int:
+    def buy_sell_stocks(self, prices: List[int]) -> int:
+        sell = prices[-1]
         max_profit = 0
-        end = len(stocks) - 1
-        left = right = end
 
-
-        while left >= 0:
-
-            profit = stocks[right] - stocks[left]
-            if profit < 0:
-                right = left
+        pntr = len(prices) - 2
+        while pntr >= 0:
+            if prices[pntr] > sell:
+                sell = prices[pntr]
             else:
+                profit = sell - prices[pntr]
                 max_profit = max(max_profit, profit)
-            left -= 1
+            pntr -= 1
         
         return max_profit
+
     
 
 # Variant - Cheapest Roundtrip Flight
@@ -55,6 +57,26 @@ class Solution:
 # Return the minimum cost you can achieve from a single roundtrip flight.
 
 # ----------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # parameters: departure: List[float], arrival: List[float]
 # return - min_cost: float

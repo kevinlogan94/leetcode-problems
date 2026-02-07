@@ -4,6 +4,109 @@
 
 # -----------------------------
 
+# parameters: nums1: List[int], nums2: List[int]
+# return: median: int
+
+# Q - nums1 and nums2 is valid
+# Q - positive and negative numbers
+# 
+
+#      *
+# [1,2,3,4]
+#    *
+# [2,3,4,5]
+# [1,2,2,3,3,4,4,5] -> 3
+
+# Left Partition Strategy
+# binary search
+
+# left = 0, right = 3 -> 0 + 3 // 2 = 1
+# total = len(nums1) + len(nums1) = 8 + 1 // 2 = 3 - 2 = 1
+
+
+#      *
+# [1,2,3,4]
+#    *
+# [1,2,3,4,5]
+
+# 10 // 2 = 9
+# total = 9 // 2 = 3 - 2 = 1
+# min to the right of both pointers is the value
+
+# 
+
+
+
+# find the smaller array
+
+# while left <= right:
+#    a_mid = left + right // 2
+#    b_mid = half - a_mid
+
+
+#  a_max = float("inf")
+#  b_max = 
+
+#   if a[a_mid + 1] <= b[b_mid + 1] and b[b_mid + 1] <= a[a_mid + 1]:
+#       check total
+#   elif a[a_mid + 1] < b[b_mid + 1]:
+#      left = mid + 1
+#   else:
+#      right = mid - 1
+
+# 
+
+
+
+
+
+
+
+class Solution:
+    def median_of_two_arrays(self, nums1: list[int], nums2: List[int]) -> float:
+
+        A = nums1
+        B = nums2
+        A_len = len(A)
+        B_len = len(B)
+
+        if A_len > B_len:
+            A, B = B, A
+            A_len, B_len = B_len, A_len
+        
+        total = A_len + B_len
+        half = total + 1 // 2
+
+        left = 0
+        right = A_len - 1
+
+        while left <= right:
+            A_mid = right + left // 2
+            B_mid = half - A_mid
+
+            A_max = float("inf") if A_mid >= A_len else A[A_mid + 1]
+            B_max = float("inf") if B_mid >= B_len else B[B_mid + 1]
+
+            A_min = float("-inf") if A_mid < 0 else A[A_mid]
+            B_min = float("-inf") if B_mid < 0 else B[B_mid]
+
+            if A_min <= B_max and B_min <= A_max:
+                if total % 2 == 0:
+                    return A_min + B_min / 2
+                else:
+                    return min(A_min, B_min)
+            elif A_min > B_max:
+                right = A_mid - 1
+            else:
+                left = A_mid + 1
+            
+        
+
+
+
+
+
+
 # Parameters: nums1: List[int], nums2: List[int]
 # Return: median: int
 
